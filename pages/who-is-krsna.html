@@ -33,8 +33,44 @@
       text-transform: uppercase; color: var(--gray2); margin-top: 0.5rem;
     }
 
-    /* INTRO QUOTE */
-    #intro { background: var(--black); }
+    /* INTRO with photo */
+    .who-intro-grid {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 4rem; align-items: start;
+    }
+    .krsna-photo-wrap {
+      position: sticky; top: 80px;
+      display: flex; flex-direction: column;
+    }
+    .krsna-photo {
+      width: 100%; aspect-ratio: 3/4;
+      object-fit: cover; object-position: top;
+      display: block;
+      filter: grayscale(20%) contrast(1.05);
+      border: 1px solid var(--border);
+    }
+    .krsna-photo-ph {
+      width: 100%; aspect-ratio: 3/4;
+      background: var(--deep);
+      display: none; align-items: center; justify-content: center;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 4rem; color: var(--border);
+      border: 1px solid var(--border);
+    }
+    .krsna-photo-tag {
+      padding: 0.8rem 1rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-top: none;
+      display: flex; flex-direction: column; gap: 0.2rem;
+    }
+    .krsna-photo-tag span {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.55rem; letter-spacing: 3px;
+      text-transform: uppercase; color: var(--gray);
+    }
+    .krsna-photo-tag span:first-child { color: var(--white); }
     .big-quote {
       font-family: 'Bebas Neue', sans-serif;
       font-size: clamp(1.8rem, 4vw, 3rem);
@@ -82,7 +118,6 @@
       letter-spacing: 2px; line-height: 1;
       padding-top: 0.1rem;
     }
-    .tl-body {}
     .tl-title {
       font-family: 'Bebas Neue', sans-serif;
       font-size: 1.4rem; letter-spacing: 1px;
@@ -123,7 +158,6 @@
     /* WHY FAMOUS */
     #famous { background: var(--deep); }
     .famous-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
-    .famous-block {}
     .famous-block h3 {
       font-family: 'Bebas Neue', sans-serif;
       font-size: 1.5rem; letter-spacing: 1px; color: var(--white);
@@ -159,6 +193,8 @@
       .famous-grid { grid-template-columns: 1fr; }
       .beef-row { grid-template-columns: 70px 1fr; }
       .beef-badge { display: none; }
+      .who-intro-grid { grid-template-columns: 1fr; }
+      .krsna-photo-wrap { position: static; max-width: 280px; }
       section { padding: 4rem 1.2rem; }
     }
   </style>
@@ -190,33 +226,49 @@
   <section id="intro">
     <div class="sec-label fade-up">001 - The Guy</div>
 
-    <div class="big-quote fade-up">
-      Jab scene mein sab<br>trend follow kar rahe the -<br>
-      <span>Krishna Kaul bars likh raha tha.</span>
-    </div>
-
-    <div class="intro-body fade-up">
+    <div class="who-intro-grid fade-up">
+      <!-- LEFT - quote + text -->
       <div>
-        <p>
-          <strong>Krishna Kaul</strong> - born October 4, 1989, New Delhi, India. Kashmiri Pandit family. Grew up partly in South London. Started writing bars at 14 in school hallways like every real one does.
-        </p>
-        <p>
-          Started on <strong>MySpace</strong> in 2006 as <em>YoungProzpekt</em>. When that platform died, he moved to YouTube. In 2010 - dropped <strong>Kaisa Mera Desh</strong> and hit #2 on most-watched videos in India overnight. First Indian hip-hop song on YouTube. Bro did that before Indian hip-hop was even a conversation.
-        </p>
-        <p>
-          2013 - signed to <strong>Universal Music India</strong>. Rebranded as KR$NA (the dollar sign matters, don't mess it up). 2014 - <em>Sellout</em> drops. First hip-hop artist in India to do a 5-city album tour with a live band. Real ones remember.
-        </p>
+        <div class="big-quote">
+          Jab scene mein sab<br>trend follow kar rahe the -<br>
+          <span>Krishna Kaul bars likh raha tha.</span>
+        </div>
+        <div class="intro-body">
+          <div>
+            <p>
+              <strong>Krishna Kaul</strong> - born October 4, 1989, New Delhi, India. Kashmiri Pandit family. Grew up partly in South London. Started writing bars at 14 in school hallways like every real one does.
+            </p>
+            <p>
+              Started on <strong>MySpace</strong> in 2006 as <em>YoungProzpekt</em>. When that platform died, he moved to YouTube. In 2010 - dropped <strong>Kaisa Mera Desh</strong> and hit #2 on most-watched videos in India overnight. First Indian hip-hop song on YouTube. Bro did that before Indian hip-hop was even a conversation.
+            </p>
+            <p>
+              2013 - signed to <strong>Universal Music India</strong>. Rebranded as KR$NA (the dollar sign matters, don't mess it up). 2014 - <em>Sellout</em> drops. First hip-hop artist in India to do a 5-city album tour with a live band. Real ones remember.
+            </p>
+          </div>
+          <div>
+            <p>
+              What makes KR$NA different from the 50,000 rappers who blew up post-Gully Boy? <strong>Technical skill.</strong> Dude can rap in Hindi or English with the same deadly precision. Internal rhyme schemes, multisyllabic flows, punchlines that hit you two bars later - not just vibes and autotune.
+            </p>
+            <p>
+              He's worked with <strong>Royce da 5'9"</strong> (Detroit OG, Em's right hand), <strong>Raftaar</strong>, <strong>Badshah</strong>, <strong>Seedhe Maut</strong>, <strong>Karan Aujla</strong>, and Japan's <strong>Awich</strong>. That's not a flex - that's range.
+            </p>
+            <p>
+              His latest - <em>Yours Truly</em> (2025, Mass Appeal India) - is the most global record in his catalogue. Took 4 years to get here. Was worth every day of the wait.
+            </p>
+          </div>
+        </div>
       </div>
-      <div>
-        <p>
-          What makes KR$NA different from the 50,000 rappers who blew up post-Gully Boy? <strong>Technical skill.</strong> Dude can rap in Hindi or English with the same deadly precision. Internal rhyme schemes, multisyllabic flows, punchlines that hit you two bars later - not just vibes and autotune.
-        </p>
-        <p>
-          He's worked with <strong>Royce da 5'9"</strong> (Detroit OG, Em's right hand), <strong>Raftaar</strong>, <strong>Badshah</strong>, <strong>Seedhe Maut</strong>, <strong>Karan Aujla</strong>, and Japan's <strong>Awich</strong>. That's not a flex - that's range.
-        </p>
-        <p>
-          His latest - <em>Yours Truly</em> (2025, Mass Appeal India) - is the most global record in his catalogue. Took 4 years to get here. Was worth every day of the wait.
-        </p>
+
+      <!-- RIGHT - KR$NA photo -->
+      <div class="krsna-photo-wrap">
+        <img src="../images/krsna.png"
+          onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+          alt="KR$NA" class="krsna-photo">
+        <div class="krsna-photo-ph">KR$NA</div>
+        <div class="krsna-photo-tag">
+          <span>Krishna Kaul</span>
+          <span>New Delhi · Est. 2006</span>
+        </div>
       </div>
     </div>
 
@@ -453,13 +505,36 @@
 </div>
 
 <footer class="footer">
-  <div class="footer-logo">RealKRSNA</div>
-  <div class="footer-links">
-    <a href="../index.html">Home</a>
-    <a href="music.html">Music</a>
-    <a href="about.html">About</a>
+  <div class="footer-contact">
+    <div class="footer-contact-left">
+      <div class="contact-heading">Contact</div>
+      <div class="contact-sub">Saurabh Gandhi · Fan · Frontend Dev</div>
+    </div>
+    <div class="footer-socials">
+      <a href="https://github.com/saurabhkun" target="_blank" class="footer-social-link">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+        saurabhkun
+      </a>
+      <a href="https://www.instagram.com/mustbe.saurabhhh" target="_blank" class="footer-social-link">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+        mustbe.saurabhhh
+      </a>
+      <a href="https://twitter.com/saurabhgandhi09" target="_blank" class="footer-social-link">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        saurabhgandhi09
+      </a>
+    </div>
   </div>
-  <div class="footer-note">Fan-made. All rights belong to KR$NA / Krishna Kaul. Not affiliated.</div>
+  <div class="footer-bottom">
+    <div class="footer-logo">RealKRSNA</div>
+    <div class="footer-links">
+      <a href="../index.html">Home</a>
+      <a href="music.html">Music</a>
+      <a href="about.html">About</a>
+      <a href="who-is-krsna.html">Who is KR$NA</a>
+    </div>
+    <div class="footer-note">Fan-made. All rights belong to KR$NA / Krishna Kaul. Not affiliated.</div>
+  </div>
 </footer>
 
 <script src="../js/main.js"></script>

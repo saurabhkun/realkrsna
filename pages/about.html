@@ -30,7 +30,7 @@
 
     /* ABOUT INTRO */
     #intro { background: var(--black); }
-    .intro-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+    .intro-grid { display: grid; grid-template-columns: 1fr; gap: 0; max-width: 720px; }
     .intro-text p {
       font-size: 0.9rem; line-height: 2; color: var(--gray3);
       margin-bottom: 1.2rem;
@@ -102,8 +102,22 @@
     }
     .creator-handle {
       font-family: 'Space Mono', monospace;
-      font-size: 0.6rem; letter-spacing: 3px; color: var(--gray2); margin-bottom: 1rem;
+      font-size: 0.6rem; letter-spacing: 3px; color: var(--gray2); margin-bottom: 0.8rem;
     }
+    .creator-socials {
+      display: flex; flex-wrap: wrap; gap: 0.6rem;
+      margin-bottom: 1.2rem;
+    }
+    .social-link {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.55rem; letter-spacing: 2px;
+      color: var(--gray2); text-decoration: none;
+      padding: 0.35rem 0.7rem;
+      border: 1px solid var(--border);
+      transition: all 0.2s;
+    }
+    .social-link:hover { border-color: var(--white); color: var(--white); }
     .creator-bio { font-size: 0.78rem; color: var(--gray3); line-height: 2; }
     .creator-bio strong { color: var(--white); font-weight: 500; }
 
@@ -153,13 +167,6 @@
         <p>
           If you're a fan - this one's for you. If you're new to KR$NA - start with <strong>Makasam</strong>. You'll understand why this site exists.
         </p>
-      </div>
-      <div class="intro-img">
-        <!-- KR$NA photo - save as /images/krsna.jpg -->
-        <img src="../images/krsna.jpg"
-          onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
-          alt="KR$NA">
-        <div class="intro-img-ph">KR$NA</div>
       </div>
     </div>
   </section>
@@ -228,24 +235,23 @@
     <h2 class="sec-title fade-up">Who Made This</h2>
     <div class="creator-card fade-up">
       <div class="creator-photo">
-        <!-- YOUR photo - save as /images/your-photo.jpg -->
-        <img src="../images/your-photo.jpg"
+        <img src="../images/about-photo.jpeg"
           onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
           alt="Creator">
         <div class="creator-photo-ph">YOU</div>
       </div>
       <div>
-        <!-- REPLACE: fill in your name, handle, and bio -->
-        <div class="creator-name">Your Name Here</div>
-        <div class="creator-handle">@yourhandle · Fan Since ????</div>
+        <div class="creator-name">Saurabh Gandhi</div>
+        <div class="creator-handle">Fan Since Birth · Frontend Dev</div>
         <div class="creator-bio">
           <p>
-            Just a fan who knows how to write code. Built this because KR$NA deserves a site that slaps as hard as his music does. No budget. No team. Just late nights and <strong>Makasam on repeat.</strong>
+            Not kidding when I say <strong>since birth</strong> — KR$NA's music has been around me longer than I can remember. Grew up listening to this guy before desi hip-hop was even a thing people talked about. While everyone around me was sleeping on him, I was deep in the catalogue.
           </p>
-          <br>
           <p>
-            <!-- ADD: describe yourself, what you do, your connection to the music -->
-            Add your story here - how you found KR$NA, why you built this, what you do outside of this project. Make it personal.
+            Built this site as a <strong>frontend learning project</strong> — HTML, CSS, vanilla JS, no frameworks. Picked KR$NA because if you're going to spend weeks building something, it better be for someone whose music you actually respect. Every section of this site was hand-coded from scratch. Late nights, a lot of Makasam on loop, and way too many cups of chai.
+          </p>
+          <p>
+            If this site made you go back and listen to even one track you hadn't heard before — <strong>job done.</strong>
           </p>
         </div>
       </div>
@@ -255,13 +261,36 @@
 </div>
 
 <footer class="footer">
-  <div class="footer-logo">RealKRSNA</div>
-  <div class="footer-links">
-    <a href="../index.html">Home</a>
-    <a href="music.html">Music</a>
-    <a href="who-is-krsna.html">Who is KR$NA</a>
+  <div class="footer-contact">
+    <div class="footer-contact-left">
+      <div class="contact-heading">Contact</div>
+      <div class="contact-sub">Saurabh Gandhi · Fan · Frontend Dev</div>
+    </div>
+    <div class="footer-socials">
+      <a href="https://github.com/saurabhkun" target="_blank" class="footer-social-link">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+        saurabhkun
+      </a>
+      <a href="https://www.instagram.com/mustbe.saurabhhh" target="_blank" class="footer-social-link">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+        mustbe.saurabhhh
+      </a>
+      <a href="https://twitter.com/saurabhgandhi09" target="_blank" class="footer-social-link">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        saurabhgandhi09
+      </a>
+    </div>
   </div>
-  <div class="footer-note">Fan-made. All rights belong to KR$NA / Krishna Kaul. Not affiliated.</div>
+  <div class="footer-bottom">
+    <div class="footer-logo">RealKRSNA</div>
+    <div class="footer-links">
+      <a href="../index.html">Home</a>
+      <a href="music.html">Music</a>
+      <a href="about.html">About</a>
+      <a href="who-is-krsna.html">Who is KR$NA</a>
+    </div>
+    <div class="footer-note">Fan-made. All rights belong to KR$NA / Krishna Kaul. Not affiliated.</div>
+  </div>
 </footer>
 
 <script src="../js/main.js"></script>
