@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>RealKRSNA - Music</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    section { padding: 5rem 2.5rem; }
+
+    /* ── HERO BANNER ── */
+    .music-hero {
+      height: 40vh; min-height: 280px;
+      display: flex; align-items: flex-end;
+      padding: 3rem 2.5rem;
+      position: relative; overflow: hidden;
+      background: var(--deep);
+    }
+    .music-hero-bg {
+      position: absolute; inset: 0;
+      background-image: url('../images/hero-bg.jpg');
+      background-size: cover; background-position: center;
+      filter: brightness(0.15) grayscale(0.5);
+    }
+    .music-hero-content { position: relative; z-index: 2; }
+    .music-hero h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 8vw, 7rem);
+      letter-spacing: 2px; line-height: 1;
+      color: var(--white);
+    }
+    .music-hero p {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem; letter-spacing: 4px; text-transform: uppercase;
+      color: var(--gray2); margin-top: 0.5rem;
+    }
+
+    /* ── PLAYER AREA ── */
+    #player-section { background: var(--black); padding-top: 3rem; }
+
+    .player-layout {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 3rem; align-items: start;
+    }
+
+    /* Track List */
+    .track-list {
+      border: 1px solid var(--border);
+    }
+
+    .track-item {
+      display: grid;
+      grid-template-columns: 3rem 1fr auto;
+      align-items: center; gap: 1rem;
+      padding: 1rem 1.2rem;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      transition: background 0.15s;
+      position: relative;
+      user-select: none;
+    }
+    .track-item:last-child { border-bottom: none; }
+    .track-item:hover { background: var(--deep); }
+    .track-item.playing { background: var(--card); }
+    .track-item.playing::before {
+      content: '';
+      position: absolute; left: 0; top: 0; bottom: 0;
+      width: 2px; background: var(--white);
+    }
+
+    .track-num {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.6rem; color: var(--gray);
+      text-align: center;
+    }
+    .track-item.playing .track-num { color: var(--white); }
+
+    .track-info .t-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.1rem; letter-spacing: 1px;
+      color: var(--white);
+    }
+    .track-info .t-meta {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.55rem; color: var(--gray);
+      margin-top: 0.1rem; letter-spacing: 1px;
+    }
+
+    .track-badge {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.5rem; letter-spacing: 2px; text-transform: uppercase;
+      padding: 0.2rem 0.5rem;
+      border: 1px solid var(--border);
+      color: var(--gray);
+      white-space: nowrap;
+    }
+    .track-badge.rare { border-color: #333; color: var(--gray3); }
+
+    /* ── PLAYER PANEL ── */
+    .player-panel {
+      position: sticky; top: 80px;
+      background: var(--card);
+      border: 1px solid var(--border);
+    }
+
+    /* Album art area */
+    .player-art {
+      aspect-ratio: 1;
+      background: var(--deep);
+      overflow: hidden; position: relative;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .player-art-img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      filter: brightness(0.6) grayscale(0.3);
+      display: block;
+    }
+    .player-art-placeholder {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 4rem; color: var(--border);
+      letter-spacing: 2px;
+    }
+    .player-art-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.8), transparent 50%);
+    }
+    .player-art-title {
+      position: absolute; bottom: 1rem; left: 1rem; right: 1rem;
+    }
+    .player-art-title .now {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.5rem; letter-spacing: 4px; text-transform: uppercase;
+      color: var(--gray2); margin-bottom: 0.3rem;
+    }
+    .player-art-title .track-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem; letter-spacing: 1px; color: var(--white); line-height: 1;
+    }
+    .player-art-title .track-artist {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.55rem; color: var(--gray2); margin-top: 0.2rem;
+    }
+
+    /* Controls */
+    .player-controls { padding: 1.2rem; }
+
+    /* Progress bar */
+    .progress-wrap {
+      display: flex; align-items: center; gap: 0.8rem;
+      margin-bottom: 1rem;
+    }
+    .time-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.55rem; color: var(--gray); min-width: 32px;
+    }
+    .progress-bar {
+      flex: 1; height: 2px; background: var(--border);
+      cursor: pointer; position: relative; border-radius: 1px;
+    }
+    .progress-fill {
+      height: 100%; background: var(--white);
+      width: 0%; border-radius: 1px;
+      transition: width 0.1s linear;
+      pointer-events: none;
+    }
+
+    /* Main buttons */
+    .btn-row {
+      display: flex; align-items: center; justify-content: center;
+      gap: 1.5rem; margin-bottom: 1rem;
+    }
+    .ctrl-btn {
+      background: none; border: none; cursor: pointer;
+      color: var(--gray2); padding: 0.3rem;
+      transition: color 0.2s; font-size: 1rem;
+    }
+    .ctrl-btn:hover { color: var(--white); }
+    .ctrl-btn.active { color: var(--white); }
+
+    .play-btn {
+      width: 44px; height: 44px;
+      background: var(--white); color: var(--black);
+      border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; transition: background 0.2s;
+      flex-shrink: 0;
+    }
+    .play-btn:hover { background: var(--offwhite); }
+
+    /* Volume */
+    .vol-row {
+      display: flex; align-items: center; gap: 0.8rem;
+    }
+    .vol-icon {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.6rem; color: var(--gray);
+    }
+    .vol-slider {
+      flex: 1; height: 2px;
+      -webkit-appearance: none; appearance: none;
+      background: var(--b2); outline: none; cursor: pointer;
+    }
+    .vol-slider::-webkit-slider-thumb {
+      -webkit-appearance: none; appearance: none;
+      width: 10px; height: 10px;
+      background: var(--white); border-radius: 50%; cursor: pointer;
+    }
+
+    /* ── DISCOGRAPHY ── */
+    #discography { background: var(--deep); }
+    .alb-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); }
+    .alb-item { background: var(--black); padding: 1.5rem; transition: background 0.2s; cursor: pointer; }
+    .alb-item:hover { background: var(--card); }
+    .alb-year { font-family: 'Space Mono', monospace; font-size: 0.55rem; letter-spacing: 3px; color: var(--gray); margin-bottom: 0.5rem; }
+    .alb-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; letter-spacing: 1px; color: var(--white); }
+    .alb-label { font-family: 'Space Mono', monospace; font-size: 0.55rem; color: var(--gray2); margin-top: 0.3rem; letter-spacing: 2px; }
+
+    @media (max-width: 900px) {
+      .player-layout { grid-template-columns: 1fr; }
+      .player-panel { position: static; }
+      section { padding: 4rem 1.2rem; }
+      .music-hero { padding: 2rem 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav-logo" href="../index.html">RealKRSNA</a>
+  <ul class="nav-links">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="music.html" class="active">Music</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="who-is-krsna.html">Who is KR$NA</a></li>
+  </ul>
+</nav>
+
+<div class="page-wrap">
+
+  <!-- HERO BANNER -->
+  <div class="music-hero">
+    <div class="music-hero-bg"></div>
+    <div class="music-hero-content">
+      <h1>Music</h1>
+      <p>Underrated · Slept On · Real</p>
+    </div>
+  </div>
+
+  <!-- PLAYER -->
+  <section id="player-section">
+    <div class="sec-label fade-up">002 - Player</div>
+    <h2 class="sec-title fade-up" style="margin-bottom:2rem;">Underrated<br>Tracks</h2>
+
+    <div class="player-layout fade-up">
+
+      <!-- Track List -->
+      <div class="track-list" id="trackList"></div>
+
+      <!-- Player Panel -->
+      <div class="player-panel">
+        <div class="player-art">
+          <!-- track cover image — updates when you click a track -->
+          <img id="artImg" src="" alt="track art"
+            style="display:none; width:100%; height:100%; object-fit:cover; position:absolute; inset:0; filter:brightness(0.55) grayscale(0.2);">
+          <div class="player-art-placeholder" id="artPlaceholder">KR$NA</div>
+          <div class="player-art-overlay"></div>
+          <div class="player-art-title">
+            <div class="now">▶ Now Playing</div>
+            <div class="track-name" id="playerTitle">Select a Track</div>
+            <div class="track-artist" id="playerMeta">KR$NA - RealKRSNA</div>
+          </div>
+        </div>
+
+        <div class="player-controls">
+          <!-- Progress -->
+          <div class="progress-wrap">
+            <span class="time-label" id="timeCur">0:00</span>
+            <div class="progress-bar" id="progressBar">
+              <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <span class="time-label" id="timeDur">0:00</span>
+          </div>
+
+          <!-- Buttons -->
+          <div class="btn-row">
+            <button class="ctrl-btn" onclick="prevTrack()" title="Previous">⏮</button>
+            <button class="play-btn" id="playBtn" onclick="togglePlay()">▶</button>
+            <button class="ctrl-btn" onclick="nextTrack()" title="Next">⏭</button>
+          </div>
+
+          <!-- Volume -->
+          <div class="vol-row">
+            <span class="vol-icon">VOL</span>
+            <input type="range" class="vol-slider" id="volSlider" min="0" max="1" step="0.01" value="0.8" oninput="setVolume(this.value)">
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- DISCOGRAPHY -->
+  <section id="discography">
+    <div class="sec-label fade-up">003 - Discography</div>
+    <h2 class="sec-title fade-up">The Catalogue</h2>
+    <div class="alb-grid fade-up">
+      <div class="alb-item">
+        <div class="alb-year">2014</div>
+        <div class="alb-name">Sellout</div>
+        <div class="alb-label">Studio Album · Universal Music India</div>
+      </div>
+      <div class="alb-item">
+        <div class="alb-year">2021</div>
+        <div class="alb-name">Still Here</div>
+        <div class="alb-label">Studio Album · Kalamkaar Records</div>
+      </div>
+      <div class="alb-item">
+        <div class="alb-year">2025</div>
+        <div class="alb-name">Yours Truly</div>
+        <div class="alb-label">Mixtape · Mass Appeal India</div>
+      </div>
+      <div class="alb-item">
+        <div class="alb-year">2006 - Now</div>
+        <div class="alb-name">Singles & Features</div>
+        <div class="alb-label">Makasam · Vyanjan · Maharani · Khatta Flow · I Guess · Lil Bunty</div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-logo">RealKRSNA</div>
+  <div class="footer-links">
+    <a href="../index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="who-is-krsna.html">Who is KR$NA</a>
+  </div>
+  <div class="footer-note">Fan-made. All rights belong to KR$NA / Krishna Kaul. Not affiliated.</div>
+</footer>
+
+<script src="../js/main.js"></script>
+<script>
+// ── TRACK DATA ──
+// Add all 15 tracks here - audio files go in /audio/
+const tracks = [
+  { title: 'Makasam',        meta: 'ft. Deep Kalsi · 2020',      file: '../audio/makasam.mp3',         img: '../images/tracks/makasam.jpg',        badge: 'rare', badgeText: 'Slept On' },
+  { title: 'Maharani',       meta: '2020 · Kalamkaar',            file: '../audio/maharani.mp3',        img: '../images/tracks/maharani.jpg',       badge: '',     badgeText: 'Diss' },
+  { title: 'Lil Bunty',      meta: '2021 · Kalamkaar',            file: '../audio/lil-bunty.mp3',       img: '../images/tracks/lil-bunty.jpg',      badge: '',     badgeText: 'Diss' },
+  { title: 'Vyanjan',        meta: '2016 · Kalamkaar',            file: '../audio/vyanjan.mp3',         img: '../images/tracks/vyanjan.jpg',        badge: 'rare', badgeText: 'Underrated' },
+  { title: 'Khatta Flow',    meta: 'ft. KR$NA · 2023',            file: '../audio/khatta-flow.mp3',     img: '../images/tracks/khatta-flow.jpg',    badge: 'rare', badgeText: 'Hidden' },
+  { title: 'Machayenge 4',   meta: '2022 · Kalamkaar',            file: '../audio/machayenge-4.mp3',    img: '../images/tracks/machayenge-4.jpg',   badge: '',     badgeText: 'Diss' },
+  { title: 'I Guess',        meta: '2023 · Mass Appeal India',    file: '../audio/i-guess.mp3',         img: '../images/tracks/i-guess.jpg',        badge: 'rare', badgeText: 'Slept On' },
+  { title: 'Knock Knock',    meta: 'ft. Phenom · 2025',           file: '../audio/knock-knock.mp3',     img: '../images/tracks/knock-knock.jpg',    badge: 'rare', badgeText: '2025' },
+  { title: 'Sensitive',      meta: 'ft. Seedhe Maut · 2025',      file: '../audio/sensitive.mp3',       img: '../images/tracks/sensitive.jpg',      badge: '',     badgeText: '2025' },
+  { title: 'Roll Up',        meta: 'ft. Badshah · 2021',          file: '../audio/roll-up.mp3',         img: '../images/tracks/roll-up.jpg',        badge: '',     badgeText: 'Collab' },
+  { title: 'Living Legend',  meta: 'ft. Rashmeet Kaur · 2021',    file: '../audio/living-legend.mp3',   img: '../images/tracks/living-legend.jpg',  badge: 'rare', badgeText: 'Underrated' },
+  { title: 'Villain',        meta: '2021 · Still Here',           file: '../audio/villain.mp3',         img: '../images/tracks/villain.jpg',        badge: 'rare', badgeText: 'Slept On' },
+  { title: 'Dream',          meta: '2021 · Still Here',           file: '../audio/dream.mp3',           img: '../images/tracks/dream.jpg',          badge: 'rare', badgeText: 'Slept On' },
+  { title: 'Kaisa Mera Desh',meta: '2010 · Historic',             file: '../audio/kaisa-mera-desh.mp3', img: '../images/tracks/kaisa-mera-desh.jpg',badge: 'rare', badgeText: 'Historic' },
+  { title: 'Last Night',     meta: '2014 · Sellout',              file: '../audio/last-night.mp3',      img: '../images/tracks/last-night.jpg',     badge: 'rare', badgeText: 'Underrated' },
+];
+
+let cur = -1;
+let audio = new Audio();
+audio.volume = 0.8;
+
+// Render track list
+function renderTracks() {
+  document.getElementById('trackList').innerHTML = tracks.map((t, i) => `
+    <div class="track-item ${i === cur ? 'playing' : ''}" onclick="loadTrack(${i})">
+      <span class="track-num">${i === cur ? '▶' : String(i + 1).padStart(2, '0')}</span>
+      <div class="track-info">
+        <div class="t-name">${t.title}</div>
+        <div class="t-meta">${t.meta}</div>
+      </div>
+      <span class="track-badge ${t.badge}">${t.badgeText}</span>
+    </div>
+  `).join('');
+}
+
+function loadTrack(i) {
+  cur = i;
+  const t = tracks[i];
+  audio.src = t.file;
+  audio.play().catch(() => {
+    // File not found - show placeholder message
+    document.getElementById('playerTitle').textContent = t.title;
+    document.getElementById('playerMeta').textContent = 'Add ' + t.file.split('/').pop() + ' to /audio/';
+  });
+  document.getElementById('playerTitle').textContent = t.title;
+  document.getElementById('playerMeta').textContent = t.meta + ' · KR$NA';
+  document.getElementById('playBtn').textContent = '⏸';
+
+  // Update track art in player panel
+  const artImg = document.getElementById('artImg');
+  const artPh  = document.getElementById('artPlaceholder');
+  artImg.src = t.img;
+  artImg.style.display = 'block';
+  artImg.onerror = () => {
+    artImg.style.display = 'none';
+    artPh.style.display  = 'flex';
+  };
+  artPh.style.display = 'none';
+
+  renderTracks();
+}
+
+function togglePlay() {
+  if (cur === -1) { loadTrack(0); return; }
+  if (audio.paused) {
+    audio.play();
+    document.getElementById('playBtn').textContent = '⏸';
+  } else {
+    audio.pause();
+    document.getElementById('playBtn').textContent = '▶';
+  }
+}
+
+function nextTrack() { loadTrack((cur + 1) % tracks.length); }
+function prevTrack() { loadTrack((cur - 1 + tracks.length) % tracks.length); }
+function setVolume(v) { audio.volume = v; }
+
+// Time format
+function fmt(s) {
+  const m = Math.floor(s / 60);
+  const sec = Math.floor(s % 60);
+  return m + ':' + String(sec).padStart(2, '0');
+}
+
+// Update progress bar
+audio.addEventListener('timeupdate', () => {
+  if (!audio.duration) return;
+  const pct = (audio.currentTime / audio.duration) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('timeCur').textContent = fmt(audio.currentTime);
+  document.getElementById('timeDur').textContent = fmt(audio.duration);
+});
+
+// Click on progress bar to seek
+document.getElementById('progressBar').addEventListener('click', function(e) {
+  if (!audio.duration) return;
+  const rect = this.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  audio.currentTime = (x / rect.width) * audio.duration;
+});
+
+// Auto next
+audio.addEventListener('ended', nextTrack);
+
+// When audio pauses/plays - sync button
+audio.addEventListener('pause', () => { document.getElementById('playBtn').textContent = '▶'; });
+audio.addEventListener('play',  () => { document.getElementById('playBtn').textContent = '⏸'; });
+
+renderTracks();
+</script>
+</body>
+</html>

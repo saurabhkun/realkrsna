@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>RealKRSNA - Who is KR$NA</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    section { padding: 5rem 2.5rem; }
+
+    /* HERO */
+    .page-hero {
+      height: 50vh; min-height: 320px;
+      display: flex; align-items: flex-end;
+      padding: 3rem 2.5rem;
+      background: var(--deep); position: relative; overflow: hidden;
+    }
+    .page-hero-bg {
+      position: absolute; inset: 0;
+      background-image: url('../images/hero-bg.jpg');
+      background-size: cover; background-position: center 20%;
+      filter: brightness(0.2) grayscale(0.3);
+    }
+    .page-hero-content { position: relative; z-index: 2; }
+    .page-hero h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 8vw, 7rem);
+      letter-spacing: 2px; color: var(--white); line-height: 1;
+    }
+    .page-hero p {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.6rem; letter-spacing: 4px;
+      text-transform: uppercase; color: var(--gray2); margin-top: 0.5rem;
+    }
+
+    /* INTRO QUOTE */
+    #intro { background: var(--black); }
+    .big-quote {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      color: var(--white); line-height: 1.2;
+      border-left: 2px solid var(--b2);
+      padding-left: 2rem; max-width: 700px;
+      margin-bottom: 3rem;
+    }
+    .big-quote span { color: var(--gray); }
+    .intro-body { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; }
+    .intro-body p { font-size: 0.85rem; color: var(--gray3); line-height: 2; margin-bottom: 1rem; }
+    .intro-body strong { color: var(--white); font-weight: 500; }
+    .intro-body em { color: var(--gray2); font-style: normal; }
+
+    /* QUICK FACTS */
+    .quick-facts {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 1px; background: var(--border); border: 1px solid var(--border);
+      margin-top: 3rem;
+    }
+    .fact { background: var(--deep); padding: 1.2rem 1rem; }
+    .fact-val {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem; color: var(--white); line-height: 1;
+    }
+    .fact-key {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.5rem; letter-spacing: 3px; text-transform: uppercase;
+      color: var(--gray); margin-top: 0.2rem;
+    }
+
+    /* TIMELINE */
+    #timeline { background: var(--deep); }
+    .tl { display: flex; flex-direction: column; gap: 0; }
+    .tl-item {
+      display: grid; grid-template-columns: 80px 1fr;
+      gap: 2rem; padding: 2rem 0;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+    }
+    .tl-item:last-child { border-bottom: none; }
+    .tl-year {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem; color: var(--white);
+      letter-spacing: 2px; line-height: 1;
+      padding-top: 0.1rem;
+    }
+    .tl-body {}
+    .tl-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem; letter-spacing: 1px;
+      color: var(--white); margin-bottom: 0.5rem;
+    }
+    .tl-text { font-size: 0.8rem; color: var(--gray3); line-height: 2; }
+    .tl-text strong { color: var(--white); font-weight: 500; }
+    .tl-tag {
+      display: inline-block; margin-top: 0.8rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.5rem; letter-spacing: 3px; text-transform: uppercase;
+      padding: 0.2rem 0.6rem;
+      border: 1px solid var(--border); color: var(--gray);
+    }
+
+    /* BEEF */
+    #beef { background: var(--black); }
+    .beef-intro { max-width: 600px; margin-bottom: 3rem; }
+    .beef-intro p { font-size: 0.85rem; color: var(--gray3); line-height: 2; margin-bottom: 1rem; }
+    .beef-intro strong { color: var(--white); font-weight: 500; }
+    .beef-timeline {
+      display: flex; flex-direction: column;
+      border: 1px solid var(--border);
+    }
+    .beef-row {
+      display: grid; grid-template-columns: 100px 1fr 120px;
+      align-items: center; gap: 1.5rem;
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .beef-row:last-child { border-bottom: none; }
+    .beef-year { font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 2px; color: var(--gray); }
+    .beef-track { font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 1px; color: var(--white); }
+    .beef-who { font-family: 'Space Mono', monospace; font-size: 0.55rem; color: var(--gray2); margin-top: 0.1rem; }
+    .beef-badge { font-family: 'Space Mono', monospace; font-size: 0.5rem; letter-spacing: 2px; text-transform: uppercase; padding: 0.2rem 0.6rem; border: 1px solid var(--border); color: var(--gray); text-align: center; }
+    .beef-badge.krsna { border-color: var(--b2); color: var(--gray3); }
+
+    /* WHY FAMOUS */
+    #famous { background: var(--deep); }
+    .famous-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
+    .famous-block {}
+    .famous-block h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.5rem; letter-spacing: 1px; color: var(--white);
+      margin-bottom: 1rem; padding-bottom: 0.8rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .famous-block p { font-size: 0.8rem; color: var(--gray3); line-height: 2; margin-bottom: 0.8rem; }
+    .famous-block strong { color: var(--white); font-weight: 500; }
+
+    /* Q&A section */
+    #qna { background: var(--black); }
+    .qna-list { display: flex; flex-direction: column; gap: 0; }
+    .qna-item { border-bottom: 1px solid var(--border); }
+    .qna-q {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.2rem; letter-spacing: 1px; color: var(--white);
+      padding: 1.5rem 0 0.3rem; cursor: pointer;
+      display: flex; justify-content: space-between; align-items: center;
+      user-select: none;
+    }
+    .qna-q::after { content: '+'; font-size: 1.2rem; color: var(--gray); transition: transform 0.2s; }
+    .qna-q.open::after { content: '−'; }
+    .qna-a {
+      font-size: 0.8rem; color: var(--gray3); line-height: 2;
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.3s;
+    }
+    .qna-a.open { max-height: 400px; padding-bottom: 1.5rem; }
+    .qna-a strong { color: var(--white); font-weight: 500; }
+
+    @media (max-width: 900px) {
+      .intro-body { grid-template-columns: 1fr; }
+      .famous-grid { grid-template-columns: 1fr; }
+      .beef-row { grid-template-columns: 70px 1fr; }
+      .beef-badge { display: none; }
+      section { padding: 4rem 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav-logo" href="../index.html">RealKRSNA</a>
+  <ul class="nav-links">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="music.html">Music</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="who-is-krsna.html" class="active">Who is KR$NA</a></li>
+  </ul>
+</nav>
+
+<div class="page-wrap">
+
+  <!-- HERO -->
+  <div class="page-hero">
+    <div class="page-hero-bg"></div>
+    <div class="page-hero-content">
+      <h1>Who tf is<br>KR$NA</h1>
+      <p>Real talk. No Wikipedia copy-paste.</p>
+    </div>
+  </div>
+
+  <!-- INTRO -->
+  <section id="intro">
+    <div class="sec-label fade-up">001 - The Guy</div>
+
+    <div class="big-quote fade-up">
+      Jab scene mein sab<br>trend follow kar rahe the -<br>
+      <span>Krishna Kaul bars likh raha tha.</span>
+    </div>
+
+    <div class="intro-body fade-up">
+      <div>
+        <p>
+          <strong>Krishna Kaul</strong> - born October 4, 1989, New Delhi, India. Kashmiri Pandit family. Grew up partly in South London. Started writing bars at 14 in school hallways like every real one does.
+        </p>
+        <p>
+          Started on <strong>MySpace</strong> in 2006 as <em>YoungProzpekt</em>. When that platform died, he moved to YouTube. In 2010 - dropped <strong>Kaisa Mera Desh</strong> and hit #2 on most-watched videos in India overnight. First Indian hip-hop song on YouTube. Bro did that before Indian hip-hop was even a conversation.
+        </p>
+        <p>
+          2013 - signed to <strong>Universal Music India</strong>. Rebranded as KR$NA (the dollar sign matters, don't mess it up). 2014 - <em>Sellout</em> drops. First hip-hop artist in India to do a 5-city album tour with a live band. Real ones remember.
+        </p>
+      </div>
+      <div>
+        <p>
+          What makes KR$NA different from the 50,000 rappers who blew up post-Gully Boy? <strong>Technical skill.</strong> Dude can rap in Hindi or English with the same deadly precision. Internal rhyme schemes, multisyllabic flows, punchlines that hit you two bars later - not just vibes and autotune.
+        </p>
+        <p>
+          He's worked with <strong>Royce da 5'9"</strong> (Detroit OG, Em's right hand), <strong>Raftaar</strong>, <strong>Badshah</strong>, <strong>Seedhe Maut</strong>, <strong>Karan Aujla</strong>, and Japan's <strong>Awich</strong>. That's not a flex - that's range.
+        </p>
+        <p>
+          His latest - <em>Yours Truly</em> (2025, Mass Appeal India) - is the most global record in his catalogue. Took 4 years to get here. Was worth every day of the wait.
+        </p>
+      </div>
+    </div>
+
+    <div class="quick-facts fade-up">
+      <div class="fact"><div class="fact-val">Oct 4</div><div class="fact-key">Born - 1989</div></div>
+      <div class="fact"><div class="fact-val">DEL</div><div class="fact-key">New Delhi</div></div>
+      <div class="fact"><div class="fact-val">KP</div><div class="fact-key">Kashmiri Pandit</div></div>
+      <div class="fact"><div class="fact-val">2006</div><div class="fact-key">Started Rapping</div></div>
+      <div class="fact"><div class="fact-val">3</div><div class="fact-key">Studio Albums</div></div>
+      <div class="fact"><div class="fact-val">2.7M</div><div class="fact-key">Spotify Listeners</div></div>
+    </div>
+  </section>
+
+  <!-- TIMELINE -->
+  <section id="timeline">
+    <div class="sec-label fade-up">002 - The Timeline</div>
+    <h2 class="sec-title fade-up">How it went</h2>
+    <div class="tl fade-up">
+
+      <div class="tl-item">
+        <div class="tl-year">2006</div>
+        <div class="tl-body">
+          <div class="tl-title">YoungProzpekt Era - MySpace Grind</div>
+          <div class="tl-text">
+            Bhai was rapping before desi hip-hop was a genre. <strong>MySpace</strong>, school hallways, collabs with US and Canadian artists nobody in India had heard of. Small fanbase. Real foundation. This is where the craft was built - no clout, no audience, just the music.
+          </div>
+          <span class="tl-tag">Pre-Internet India</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-year">2010</div>
+        <div class="tl-body">
+          <div class="tl-title">Kaisa Mera Desh - History Made</div>
+          <div class="tl-text">
+            <strong>First Indian hip-hop song on YouTube.</strong> Dropped it, went to sleep, woke up and it was #2 on most-watched in India. No label, no marketing, no PR agency. Just a banger that worked. The underground had arrived. People still quote this one.
+          </div>
+          <span class="tl-tag">First Mover</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-year">2013</div>
+        <div class="tl-body">
+          <div class="tl-title">Signs to Universal Music - KR$NA is Born</div>
+          <div class="tl-text">
+            YoungProzpekt becomes <strong>KR$NA</strong>. Signs with Universal Music India. Contrabands tour - Universal × VH1 × Hard Rock Cafe. First real budget, first real shows. The rebrand wasn't just a name change - it was a different level.
+          </div>
+          <span class="tl-tag">Level Up</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-year">2014</div>
+        <div class="tl-body">
+          <div class="tl-title">Sellout - Debut Album</div>
+          <div class="tl-text">
+            First studio album. <strong>First hip-hop artist in India to do a 5-city album tour with a live band.</strong> This was before the mainstream caught on. Before <em>Gully Boy</em>. Before everyone suddenly knew what DHH was. KR$NA was doing it when doing it meant something.
+          </div>
+          <span class="tl-tag">Debut</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-year">2016</div>
+        <div class="tl-body">
+          <div class="tl-title">Vyanjan - Comeback in Hindi</div>
+          <div class="tl-text">
+            2-year gap. Radio silence. Then - <strong>Vyanjan</strong> drops in Hindi. New audience, same bars. Signs with DNH Artists (later becomes Kalamkaar). Kalamkaar becomes the most important rap label in India for the next 5 years. KR$NA was early on this too.
+          </div>
+          <span class="tl-tag">Hindi Era</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-year">2019–22</div>
+        <div class="tl-body">
+          <div class="tl-title">The Emiway Bantai Beef - DHH History</div>
+          <div class="tl-text">
+            The biggest beef in desi hip-hop. Langar (Emiway) → <strong>Makasam</strong> (KR$NA) → Maharani (KR$NA) → Machayenge 4 (Emiway) → <strong>Lil Bunty</strong> (KR$NA). Bars on bars. Diss tracks so clean they became anthems on their own. KR$NA's <em>Makasam</em> is still one of the hardest diss tracks ever written in this scene - period.
+          </div>
+          <span class="tl-tag">DHH Legend</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-year">2021</div>
+        <div class="tl-body">
+          <div class="tl-title">Still Here - Second Album</div>
+          <div class="tl-text">
+            <strong>Roll Up</strong> with Badshah: 10M+ views in a month. Living Legend with Rashmeet Kaur. Featured on <strong>Hi-Rez and Royce da 5'9"</strong> tracks - that's an international co-sign most DHH artists can only dream about. Still Here wasn't just an album title - it was a statement.
+          </div>
+          <span class="tl-tag">Statement</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-year">2025</div>
+        <div class="tl-body">
+          <div class="tl-title">Yours Truly - Mixtape (Mass Appeal India)</div>
+          <div class="tl-text">
+            Took years. Worth every single day. <strong>Seedhe Maut, Awich, Badshah, Raftaar, Karan Aujla.</strong> Mass Appeal India - Nas's label. A desi rapper on Nas's label. Let that sink in. <em>Yours Truly</em> is the most global, most ambitious, and most honest record in the KR$NA catalogue.
+          </div>
+          <span class="tl-tag">2025</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- THE BEEF -->
+  <section id="beef">
+    <div class="sec-label fade-up">003 - The Beef</div>
+    <h2 class="sec-title fade-up">The Makasam Era</h2>
+    <div class="beef-intro fade-up">
+      <p>
+        Look - we're not going to pretend the Emiway beef didn't happen. It's <strong>desi hip-hop history.</strong> But let's be real - KR$NA won every round on bars alone. No drama. No social media tantrums. Just tracks that hit harder each time.
+      </p>
+      <p>
+        Here's the full timeline of how it went. <strong>KR$NA's bars stayed cleaner every single round.</strong>
+      </p>
+    </div>
+    <div class="beef-timeline fade-up">
+      <div class="beef-row">
+        <div class="beef-year">2019</div>
+        <div>
+          <div class="beef-track">Langar</div>
+          <div class="beef-who">Emiway Bantai → KR$NA</div>
+        </div>
+        <div class="beef-badge">Emiway</div>
+      </div>
+      <div class="beef-row">
+        <div class="beef-year">2020</div>
+        <div>
+          <div class="beef-track">Makasam</div>
+          <div class="beef-who">KR$NA ft. Deep Kalsi → Reply</div>
+        </div>
+        <div class="beef-badge krsna">KR$NA ✓</div>
+      </div>
+      <div class="beef-row">
+        <div class="beef-year">2020</div>
+        <div>
+          <div class="beef-track">Maharani</div>
+          <div class="beef-who">KR$NA → Follow-up</div>
+        </div>
+        <div class="beef-badge krsna">KR$NA ✓</div>
+      </div>
+      <div class="beef-row">
+        <div class="beef-year">2021</div>
+        <div>
+          <div class="beef-track">Machayenge 4</div>
+          <div class="beef-who">Emiway → Reply</div>
+        </div>
+        <div class="beef-badge">Emiway</div>
+      </div>
+      <div class="beef-row">
+        <div class="beef-year">2021</div>
+        <div>
+          <div class="beef-track">Lil Bunty</div>
+          <div class="beef-who">KR$NA → Final word</div>
+        </div>
+        <div class="beef-badge krsna">KR$NA ✓</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY FAMOUS -->
+  <section id="famous">
+    <div class="sec-label fade-up">004 - The Craft</div>
+    <h2 class="sec-title fade-up">Why He's<br>Different</h2>
+    <div class="famous-grid fade-up">
+      <div class="famous-block">
+        <h3>The Bars</h3>
+        <p>Most rappers in India ride a beat. KR$NA <strong>controls it.</strong> Internal rhyme schemes, multisyllabic patterns, references layered under references. The kind of rap you need to listen to 3 times to catch everything. That's not an accident - that's years of work.</p>
+        <p>He raps in Hindi and English with the same confidence. The switch is seamless. Most artists pick a lane. KR$NA owns the whole road.</p>
+      </div>
+      <div class="famous-block">
+        <h3>The Longevity</h3>
+        <p>Since <strong>2006.</strong> That's almost 20 years. He watched trends come and go - Bollywood rap, mumble rap, drill, whatever TikTok pushed last month. Didn't chase any of it. Just kept making <strong>real music</strong> for people who listen with headphones in, not speakers on.</p>
+        <p>Most acts that blew up post-Gully Boy have already faded. KR$NA was here before them and will be here after.</p>
+      </div>
+      <div class="famous-block">
+        <h3>The Co-signs</h3>
+        <p><strong>Royce da 5'9"</strong> - Eminem's right hand, Detroit OG, one of the most respected MCs alive. He collaborated with KR$NA. You don't get that if your bars are mid.</p>
+        <p>Mass Appeal India - <strong>Nas's label.</strong> Nas chose KR$NA. The same guy who made Illmatic is running the label that put out Yours Truly. That's not luck. That's earned.</p>
+      </div>
+      <div class="famous-block">
+        <h3>The Attitude</h3>
+        <p>KR$NA doesn't do drama for views. No Twitter meltdowns. No beef for clout. When he responded to Emiway - he did it <strong>with bars, not tweets.</strong> When he went silent for 2 years - he came back with a better record.</p>
+        <p>Real ones respect that. The music speaks. Everything else is noise.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Q&A -->
+  <section id="qna">
+    <div class="sec-label fade-up">005 - FAQ</div>
+    <h2 class="sec-title fade-up">Questions<br>Real Fans Ask</h2>
+    <div class="qna-list fade-up">
+
+      <div class="qna-item">
+        <div class="qna-q" onclick="toggleQ(this)">Bhai teri first recommendation kya hai?</div>
+        <div class="qna-a">Start with <strong>Makasam</strong>. If you want old school, go <strong>Kaisa Mera Desh</strong>. If you want something recent, play <strong>Sensitive</strong> from Yours Truly. Don't start with Roll Up - that's a collab record, not a good introduction to his actual skill level.</div>
+      </div>
+
+      <div class="qna-item">
+        <div class="qna-q" onclick="toggleQ(this)">English mein zyada better hai ya Hindi mein?</div>
+        <div class="qna-a">Honestly? Both. Early stuff was mostly English and it was fire. The Hindi era unlocked a completely different audience and he didn't lose any of the technical skill in the switch. <strong>Vyanjan</strong> proved he's just as deadly in Hindi. Pick your language - he's covered.</div>
+      </div>
+
+      <div class="qna-item">
+        <div class="qna-q" onclick="toggleQ(this)">Kalamkaar se kyun alag hua?</div>
+        <div class="qna-a">Nothing official was ever said - so we won't put words in anyone's mouth. What we know is he moved to <strong>Mass Appeal India</strong> and dropped Yours Truly there. The music is better than ever. That's what matters.</div>
+      </div>
+
+      <div class="qna-item">
+        <div class="qna-q" onclick="toggleQ(this)">Emiway beef mein who actually won?</div>
+        <div class="qna-a">We're a KR$NA fan site so we're biased - but bars don't lie. <strong>Makasam</strong> is studied like a textbook. <strong>Lil Bunty</strong> shut it down. Ask anyone who listens for craft, not views.</div>
+      </div>
+
+      <div class="qna-item">
+        <div class="qna-q" onclick="toggleQ(this)">Most underrated track kaunsa hai?</div>
+        <div class="qna-a"><strong>Villain</strong> from Still Here. People slept on it hard. Also <strong>Dream</strong> from the same album. And if you haven't heard <strong>Living Legend</strong> with Rashmeet Kaur - fix that today.</div>
+      </div>
+
+      <div class="qna-item">
+        <div class="qna-q" onclick="toggleQ(this)">Live performance dekhne ka experience kaisa hai?</div>
+        <div class="qna-a">Bhai goes absolutely crazy live. Energy is different. He's been doing this since the Contrabands tour in 2013 - he knows how to work a crowd. If he's performing near you - you go. Simple.</div>
+      </div>
+
+    </div>
+  </section>
+
+</div>
+
+<footer class="footer">
+  <div class="footer-logo">RealKRSNA</div>
+  <div class="footer-links">
+    <a href="../index.html">Home</a>
+    <a href="music.html">Music</a>
+    <a href="about.html">About</a>
+  </div>
+  <div class="footer-note">Fan-made. All rights belong to KR$NA / Krishna Kaul. Not affiliated.</div>
+</footer>
+
+<script src="../js/main.js"></script>
+<script>
+function toggleQ(el) {
+  el.classList.toggle('open');
+  el.nextElementSibling.classList.toggle('open');
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>RealKRSNA - Home</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* Background image */
+    .hero-bg {
+      position: absolute; inset: 0;
+      background-image: url('../images/hero-bg.jpg');
+      /* REPLACE: put your KR$NA image as hero-bg.jpg in /images/ */
+      background-size: cover;
+      background-position: center top;
+      filter: brightness(0.3) grayscale(0.4);
+      transform: scale(1.05);
+      transition: transform 8s ease;
+    }
+    .hero:hover .hero-bg { transform: scale(1.0); }
+
+    /* Dark vignette over image */
+    .hero-vignette {
+      position: absolute; inset: 0;
+      background:
+        linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.0) 40%, rgba(0,0,0,0.6) 80%, rgba(0,0,0,1) 100%),
+        linear-gradient(to right, rgba(0,0,0,0.4) 0%, transparent 40%, transparent 60%, rgba(0,0,0,0.4) 100%);
+    }
+
+    .hero-content {
+      position: relative; z-index: 2;
+      text-align: center;
+      display: flex; flex-direction: column;
+      align-items: center;
+    }
+
+    /* Logo image - replace with your actual KR$NA logo */
+    .hero-logo-img {
+      width: clamp(120px, 20vw, 220px);
+      margin-bottom: 1.5rem;
+      /* If your logo is WHITE / light coloured on transparent - keep as is, no filter needed */
+      /* If your logo is BLACK / dark coloured on transparent - uncomment the line below: */
+      /* filter: invert(1); */
+      opacity: 0.95;
+    }
+
+    /* Fallback text logo if no image yet */
+    .hero-logo-text {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(5rem, 14vw, 12rem);
+      letter-spacing: -2px;
+      line-height: 0.9;
+      color: var(--white);
+      margin-bottom: 0.5rem;
+    }
+
+    .hero-tagline {
+      font-family: 'Space Mono', monospace;
+      font-size: clamp(0.6rem, 1.5vw, 0.75rem);
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      color: var(--gray3);
+      margin-bottom: 3rem;
+    }
+
+    .hero-cta {
+      display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
+    }
+
+    /* Scroll hint */
+    .scroll-hint {
+      position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+      z-index: 2;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gray);
+      display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+      animation: bounce 2s ease infinite;
+    }
+    .scroll-hint::after {
+      content: '';
+      width: 1px; height: 40px;
+      background: linear-gradient(to bottom, var(--gray), transparent);
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(6px); }
+    }
+
+    /* ── COLLAGE SECTION ── */
+    .collage-section {
+      padding: 6rem 2.5rem;
+      background: var(--black);
+    }
+
+    /* Overlapping collage grid */
+    .collage-grid {
+      position: relative;
+      /* Total canvas height - adjust if needed */
+      height: 900px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .collage-card {
+      position: absolute;
+      overflow: hidden;
+      cursor: pointer;
+      background: var(--card);
+      border: 1px solid var(--border);
+      transition: z-index 0s, transform 0.4s ease, border-color 0.3s;
+      text-decoration: none;
+      display: block;
+    }
+    .collage-card:hover {
+      border-color: var(--b2);
+      z-index: 10 !important;
+    }
+    .collage-card:hover .card-img { filter: brightness(0.4) grayscale(0.2); }
+    .collage-card:hover .card-body { opacity: 1; transform: translateY(0); }
+
+    .card-img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: brightness(0.6) grayscale(0.3);
+      transition: filter 0.4s;
+    }
+    /* Placeholder when no image yet */
+    .card-img-placeholder {
+      width: 100%; height: 100%;
+      background: var(--deep);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      color: var(--border);
+      letter-spacing: 3px;
+    }
+
+    .card-body {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      justify-content: flex-end;
+      padding: 1.5rem;
+      background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.3) 50%, transparent 100%);
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 0.3s, transform 0.3s;
+    }
+
+    .card-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gray2);
+      margin-bottom: 0.3rem;
+    }
+    .card-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.6rem;
+      letter-spacing: 2px;
+      color: var(--white);
+      line-height: 1;
+    }
+    .card-arrow {
+      margin-top: 0.6rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 3px;
+      color: var(--gray3);
+    }
+
+    /* ── CARD POSITIONS & SIZES ── */
+    /* Each card has different size + position for collage feel */
+    /* Feel free to tweak these coordinates once your images are in */
+
+    .card-1 {
+      /* Large - top left landscape */
+      left: 0; top: 0;
+      width: 48%; height: 380px;
+      z-index: 3;
+    }
+    .card-2 {
+      /* Tall portrait - top right */
+      left: 52%; top: 0;
+      width: 30%; height: 520px;
+      z-index: 2;
+    }
+    .card-3 {
+      /* Small square - overlapping card 1 and 2 */
+      left: 38%; top: 220px;
+      width: 22%; height: 200px;
+      z-index: 5;
+    }
+    .card-4 {
+      /* Wide - mid left */
+      left: 0; top: 400px;
+      width: 36%; height: 260px;
+      z-index: 2;
+    }
+    .card-5 {
+      /* Medium - mid center */
+      left: 38%; top: 440px;
+      width: 26%; height: 240px;
+      z-index: 4;
+    }
+    .card-6 {
+      /* Tall - far right */
+      left: 66%; top: 200px;
+      width: 34%; height: 400px;
+      z-index: 2;
+    }
+    .card-7 {
+      /* Wide - bottom spanning */
+      left: 0; top: 680px;
+      width: 62%; height: 200px;
+      z-index: 3;
+    }
+    .card-8 {
+      /* Small square - bottom right */
+      left: 64%; top: 620px;
+      width: 36%; height: 260px;
+      z-index: 2;
+    }
+
+    @media (max-width: 900px) {
+      .collage-grid {
+        height: auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.6rem;
+      }
+      .collage-card {
+        position: static;
+        width: 100% !important;
+        height: 200px !important;
+        z-index: 1 !important;
+      }
+      .card-1 { grid-column: span 2; height: 280px !important; }
+      .card-body { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 480px) {
+      .collage-grid { grid-template-columns: 1fr; }
+      .card-1 { grid-column: span 1; }
+      .collage-section { padding: 4rem 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a class="nav-logo" href="index.html">RealKRSNA</a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">Home</a></li>
+    <li><a href="pages/music.html">Music</a></li>
+    <li><a href="pages/about.html">About</a></li>
+    <li><a href="pages/who-is-krsna.html">Who is KR$NA</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <!-- REPLACE: add your KR$NA background photo as /images/hero-bg.jpg -->
+  <div class="hero-bg"></div>
+  <div class="hero-vignette"></div>
+
+  <div class="hero-content">
+    <!-- OPTION A: Use logo image - put your logo at /images/logo.png -->
+    <img class="hero-logo-img" src="images/logo.png"
+      onerror="this.style.display='none'; document.getElementById('fallback-logo').style.display='block';"
+      alt="KR$NA Logo">
+
+    <!-- OPTION B: Fallback text logo (shows if logo.png missing) -->
+    <div class="hero-logo-text" id="fallback-logo" style="display:none;">KR$NA</div>
+
+    <p class="hero-tagline">New Delhi · Kashmiri · Real</p>
+
+    <div class="hero-cta">
+      <a href="pages/music.html" class="btn btn-white">Listen Now</a>
+      <a href="pages/who-is-krsna.html" class="btn btn-outline">Who is he?</a>
+    </div>
+  </div>
+
+  <div class="scroll-hint">Scroll</div>
+</div>
+
+<!-- MARQUEE -->
+<div class="marquee">
+  <div class="marquee-track">
+    <span class="marquee-item">MAKASAM</span><span class="marquee-sep">·</span>
+    <span class="marquee-item">STILL HERE</span><span class="marquee-sep">·</span>
+    <span class="marquee-item">VYANJAN</span><span class="marquee-sep">·</span>
+    <span class="marquee-item">ROLL UP</span><span class="marquee-sep">·</span>
+    <span class="marquee-item">SELLOUT</span><span class="marquee-sep">·</span>
+    <span class="marquee-item">KHATTA FLOW</span><span class="marquee-sep">·</span>
+    <span class="marquee-item">LIL BUNTY</span><span class="marquee-sep">·</span>
+    <span class="marquee-item">YOURS TRULY</span><span class="marquee-sep">·</span>
+    <span class="marquee-item">MAHARANI</span><span class="marquee-sep">·</span>
+    <span class="marquee-item">KNOCK KNOCK</span><span class="marquee-sep">·</span>
+    <!-- duplicate -->
+    <span class="marquee-item">MAKASAM</span><span class="marquee-sep">·</span>
+    <span class="marquee-item">STILL HERE</span><span class="marquee-sep">·</span>
+    <span class="marquee-item">VYANJAN</span><span class="marquee-sep">·</span>
+    <span class="marquee-item">ROLL UP</span><span class="marquee-sep">·</span>
+    <span class="marquee-item">SELLOUT</span><span class="marquee-sep">·</span>
+    <span class="marquee-item">KHATTA FLOW</span><span class="marquee-sep">·</span>
+    <span class="marquee-item">LIL BUNTY</span><span class="marquee-sep">·</span>
+    <span class="marquee-item">YOURS TRULY</span><span class="marquee-sep">·</span>
+    <span class="marquee-item">MAHARANI</span><span class="marquee-sep">·</span>
+    <span class="marquee-item">KNOCK KNOCK</span><span class="marquee-sep">·</span>
+  </div>
+</div>
+
+<!-- COLLAGE SECTION -->
+<section class="collage-section">
+  <div class="sec-label fade-up">Explore</div>
+  <h2 class="sec-title fade-up" style="margin-bottom:4rem;">The World<br>of KR$NA</h2>
+
+  <div class="collage-grid fade-up">
+
+    <!-- Card 1 - Music (large) -->
+    <a class="collage-card card-1" href="pages/music.html">
+      <img class="card-img" src="images/card1.jpg"
+        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+        alt="Music">
+      <div class="card-img-placeholder" style="display:none;">MUSIC</div>
+      <div class="card-body">
+        <div class="card-label">Section 01</div>
+        <div class="card-title">Music</div>
+        <div class="card-arrow">Underrated Tracks →</div>
+      </div>
+    </a>
+
+    <!-- Card 2 - Who is KR$NA (tall) -->
+    <a class="collage-card card-2" href="pages/who-is-krsna.html">
+      <img class="card-img" src="images/card2.jpg"
+        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+        alt="Who is KR$NA">
+      <div class="card-img-placeholder" style="display:none;">KR$NA</div>
+      <div class="card-body">
+        <div class="card-label">Section 02</div>
+        <div class="card-title">Who is KR$NA</div>
+        <div class="card-arrow">The Journey →</div>
+      </div>
+    </a>
+
+    <!-- Card 3 - About (small, overlapping) -->
+    <a class="collage-card card-3" href="pages/about.html">
+      <img class="card-img" src="images/card3.jpg"
+        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+        alt="About">
+      <div class="card-img-placeholder" style="display:none;">ABOUT</div>
+      <div class="card-body">
+        <div class="card-label">Section 03</div>
+        <div class="card-title">About</div>
+        <div class="card-arrow">This Site →</div>
+      </div>
+    </a>
+
+    <!-- Card 4 - The Beef -->
+    <a class="collage-card card-4" href="pages/who-is-krsna.html#beef">
+      <img class="card-img" src="images/card4.jpg"
+        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+        alt="The Beef">
+      <div class="card-img-placeholder" style="display:none;">BEEF</div>
+      <div class="card-body">
+        <div class="card-label">Chapter</div>
+        <div class="card-title">The Beef</div>
+        <div class="card-arrow">Makasam Era →</div>
+      </div>
+    </a>
+
+    <!-- Card 5 - Community -->
+    <a class="collage-card card-5" href="pages/about.html#community">
+      <img class="card-img" src="images/card5.jpg"
+        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+        alt="Community">
+      <div class="card-img-placeholder" style="display:none;">COMMUNITY</div>
+      <div class="card-body">
+        <div class="card-label">Join</div>
+        <div class="card-title">Community</div>
+        <div class="card-arrow">Fan Fam →</div>
+      </div>
+    </a>
+
+    <!-- Card 6 - Discography -->
+    <a class="collage-card card-6" href="pages/music.html#discography">
+      <img class="card-img" src="images/card6.jpg"
+        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+        alt="Discography">
+      <div class="card-img-placeholder" style="display:none;">DISCOS</div>
+      <div class="card-body">
+        <div class="card-label">Albums</div>
+        <div class="card-title">Discography</div>
+        <div class="card-arrow">View All →</div>
+      </div>
+    </a>
+
+    <!-- Card 7 - The Timeline -->
+    <a class="collage-card card-7" href="pages/who-is-krsna.html#timeline">
+      <img class="card-img" src="images/card7.jpg"
+        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+        alt="Timeline">
+      <div class="card-img-placeholder" style="display:none;">TIMELINE</div>
+      <div class="card-body">
+        <div class="card-label">2006 → Now</div>
+        <div class="card-title">The Timeline</div>
+        <div class="card-arrow">20 Years →</div>
+      </div>
+    </a>
+
+    <!-- Card 8 - Listen Now -->
+    <a class="collage-card card-8" href="pages/music.html">
+      <img class="card-img" src="images/card8.jpg"
+        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+        alt="Listen">
+      <div class="card-img-placeholder" style="display:none;">LISTEN</div>
+      <div class="card-body">
+        <div class="card-label">Player</div>
+        <div class="card-title">Listen Now</div>
+        <div class="card-arrow">Play Tracks →</div>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-logo">RealKRSNA</div>
+  <div class="footer-links">
+    <a href="pages/music.html">Music</a>
+    <a href="pages/about.html">About</a>
+    <a href="pages/who-is-krsna.html">Who is KR$NA</a>
+    <a href="https://www.instagram.com/realkrsna" target="_blank">Instagram</a>
+    <a href="https://open.spotify.com/artist/5NoLFq1PsMnIhAbobREzHm" target="_blank">Spotify</a>
+  </div>
+  <div class="footer-note">Fan-made. All rights belong to KR$NA / Krishna Kaul. Not affiliated.</div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>
